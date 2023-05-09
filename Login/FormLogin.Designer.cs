@@ -91,8 +91,7 @@
             button1.Text = "Ingresar";
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
-            button1.MouseLeave += button1_MouseLeave;
-            button1.MouseHover += button1_MouseHover;
+            
             // 
             // pictureBox1
             // 

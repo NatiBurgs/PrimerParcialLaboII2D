@@ -56,9 +56,12 @@ namespace Entidades
         /// </summary>
         public void CargarClientes() 
         {
-            clientes.Add(new Cliente("123", "123", "Natalia", "burgos", 10000));
-            clientes.Add(new Cliente("Daniel@gmail.com", "456", "Daniel", "caceres", 5000));
-            clientes.Add(new Cliente("123@", "1234", "Pepe", "perex", 10000));  
+            clientes.Add(new Cliente("Natalia@gmail.com", "123", "Natalia", "Burgos", 10000));
+            clientes.Add(new Cliente("Daniel@gmail.com", "456", "Daniel", "Caceres", 5000));
+            clientes.Add(new Cliente("Pepe@gmail.com", "1234", "Pepe", "Perez", 10000));
+            clientes.Add(new Cliente("Maria@gmail.com", "1234", "Maria", "Gonzales", 10000));
+            clientes.Add(new Cliente("Miguel@gmail.com", "1234", "Miguel", "Gimenez", 10000));
+            clientes.Add(new Cliente("Abigail@gmail.com", "1234", "Abigail", "Cardozo", 10000));
         }
         /// <summary>
         /// Retorna la lista de clientes de la clase Empresa.
