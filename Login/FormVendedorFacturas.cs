@@ -35,7 +35,7 @@ namespace Login
             foreach (Factura item in facturaList)
             {
                 stringBuilder.Clear();
-                stringBuilder.AppendLine($"Orden #{item.Rand}     |     Cliente: {item.NombreDeComprador}     |     Total Abonado $ : {item.MontoTotal.ToString()}      |      Método de Pago:{item.MetodoDePago}        |       Producto: {item.NombreProducto} ");
+                stringBuilder.AppendLine($"Orden #{item.Rand}     |     Cliente: {item.NombreDeComprador}     |     Total Abonado $ : {item.MontoTotal.ToString()}      |      Método de Pago:{item.MetodoDePago}");
 
                 listBox1.Items.Add(stringBuilder.ToString());
 

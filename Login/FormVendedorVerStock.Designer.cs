@@ -71,7 +71,7 @@
             listBox1.ItemHeight = 19;
             listBox1.Location = new Point(123, 230);
             listBox1.Name = "listBox1";
-            listBox1.Size = new Size(320, 460);
+            listBox1.Size = new Size(645, 460);
             listBox1.TabIndex = 4;
             // 
             // groupBox1
