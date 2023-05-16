@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormVendedorFijarPrecios));
             listBox1 = new ListBox();
             label1 = new Label();
@@ -36,7 +37,9 @@
             button1 = new Button();
             button2 = new Button();
             pictureBox1 = new PictureBox();
+            errorProvider1 = new ErrorProvider(components);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)errorProvider1).BeginInit();
             SuspendLayout();
             // 
             // listBox1
@@ -44,11 +47,10 @@
             listBox1.ForeColor = SystemColors.Highlight;
             listBox1.FormattingEnabled = true;
             listBox1.ItemHeight = 20;
-            listBox1.Location = new Point(59, 79);
+            listBox1.Location = new Point(391, 137);
             listBox1.Name = "listBox1";
-            listBox1.Size = new Size(218, 164);
+            listBox1.Size = new Size(369, 284);
             listBox1.TabIndex = 0;
-            listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;
             // 
             // label1
             // 
@@ -61,16 +63,17 @@
             // textBox1
             // 
             textBox1.ForeColor = SystemColors.ControlDark;
-            textBox1.Location = new Point(316, 216);
+            textBox1.Location = new Point(531, 464);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(113, 27);
             textBox1.TabIndex = 2;
+            textBox1.Validating += textBox1_Validating;
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.ForeColor = SystemColors.Highlight;
-            label2.Location = new Point(435, 223);
+            label2.Location = new Point(658, 467);
             label2.Name = "label2";
             label2.Size = new Size(102, 20);
             label2.TabIndex = 3;
@@ -80,7 +83,7 @@
             // 
             button1.BackColor = Color.RoyalBlue;
             button1.ForeColor = SystemColors.ButtonFace;
-            button1.Location = new Point(316, 285);
+            button1.Location = new Point(507, 529);
             button1.Name = "button1";
             button1.Size = new Size(177, 53);
             button1.TabIndex = 4;
@@ -92,7 +95,7 @@
             // 
             button2.BackColor = Color.RoyalBlue;
             button2.ForeColor = SystemColors.ButtonFace;
-            button2.Location = new Point(406, 401);
+            button2.Location = new Point(582, 703);
             button2.Name = "button2";
             button2.Size = new Size(102, 37);
             button2.TabIndex = 5;
@@ -103,19 +106,23 @@
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(316, 50);
+            pictureBox1.Location = new Point(797, 146);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(140, 135);
+            pictureBox1.Size = new Size(163, 157);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 6;
             pictureBox1.TabStop = false;
+            // 
+            // errorProvider1
+            // 
+            errorProvider1.ContainerControl = this;
             // 
             // FormVendedorFijarPrecios
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(224, 224, 224);
-            ClientSize = new Size(590, 450);
+            ClientSize = new Size(1126, 752);
             Controls.Add(pictureBox1);
             Controls.Add(button2);
             Controls.Add(button1);
@@ -131,6 +138,7 @@
             Text = "Fijar Precios";
             Load += FormVendedorFijarPrecios_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)errorProvider1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -144,5 +152,6 @@
         private Button button1;
         private Button button2;
         private PictureBox pictureBox1;
+        private ErrorProvider errorProvider1;
     }
 }

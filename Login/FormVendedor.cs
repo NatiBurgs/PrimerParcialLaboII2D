@@ -22,11 +22,21 @@ namespace Login
             this.empresa = empresa;
         }
 
+        /// <summary>
+        /// Se inicializa el Formulario.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FormVendedor_Load(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Al realizar click sobre el button1 se genera el FormularioVenderAClientes, y éste se pausa.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             FormVenderAClientes formVenderAClientes = new FormVenderAClientes(this, empresa);
@@ -34,6 +44,11 @@ namespace Login
             this.Hide();
         }
 
+        /// <summary>
+        /// Al realizar click sobre el button1 se genera el FormVendedorStock, y éste se pausa.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
             FormVendedorVerStock formVendedorVerStock = new FormVendedorVerStock(this, empresa);
@@ -41,6 +56,11 @@ namespace Login
             this.Hide();
         }
 
+        /// <summary>
+        /// Al realizar click sobre el button1 se genera el FormVendedorReponerStock, y éste se pausa.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button3_Click(object sender, EventArgs e)
         {
             FormVendedorReponerStock formVendedorReponerStock = new FormVendedorReponerStock(this, empresa);
@@ -48,6 +68,11 @@ namespace Login
             this.Hide();
         }
 
+        /// <summary>
+        /// Al realizar click sobre el button1 se genera el FormVendedorFijarPrecios, y éste se pausa.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button4_Click(object sender, EventArgs e)
         {
             FormVendedorFijarPrecios formVendedorFijarPrecios = new(this, empresa);
@@ -55,6 +80,11 @@ namespace Login
             this.Hide();
         }
 
+        /// <summary>
+        /// Al realizar click sobre el button1 se genera el FormVendedorFijarCortes, y éste se pausa.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button5_Click(object sender, EventArgs e)
         {
             FormVendedorFijarCortes formVendedorFijarCortes = new FormVendedorFijarCortes(this, empresa);
@@ -62,76 +92,31 @@ namespace Login
             this.Hide();
         }
 
+        /// <summary>
+        /// Se muestra éste formulario.
+        /// </summary>
         public void MostrarFormVendedor()
         {
             this.Show();
         }
 
-        private void button1_MouseHover(object sender, EventArgs e)
-        {
-            button1.BackColor = Color.SteelBlue;
-        }
-
-        private void button1_MouseLeave(object sender, EventArgs e)
-        {
-            button1.BackColor = Color.RoyalBlue;
-        }
-
-        private void button2_MouseHover(object sender, EventArgs e)
-        {
-            button1.BackColor = Color.SteelBlue;
-        }
-
-        private void button2_MouseLeave(object sender, EventArgs e)
-        {
-            button1.BackColor = Color.RoyalBlue;
-        }
-
-        private void button3_MouseHover(object sender, EventArgs e)
-        {
-            button1.BackColor = Color.SteelBlue;
-        }
-
-        private void button3_MouseLeave(object sender, EventArgs e)
-        {
-            button1.BackColor = Color.RoyalBlue;
-        }
-
-        private void button4_MouseHover(object sender, EventArgs e)
-        {
-            button1.BackColor = Color.SteelBlue;
-        }
-
-        private void button4_MouseLeave(object sender, EventArgs e)
-        {
-            button1.BackColor = Color.RoyalBlue;
-        }
-
-        private void button5_MouseHover(object sender, EventArgs e)
-        {
-            button1.BackColor = Color.SteelBlue;
-        }
-
-        private void button5_MouseLeave(object sender, EventArgs e)
-        {
-            button1.BackColor = Color.RoyalBlue;
-        }
-
-        private void button6_MouseHover(object sender, EventArgs e)
-        {
-            button1.BackColor = Color.SteelBlue;
-        }
-
-        private void button6_MouseLeave(object sender, EventArgs e)
-        {
-            button1.BackColor = Color.RoyalBlue;
-        }
-
+        /// <summary>
+        /// Se muestra el formulario Login y éste se destruye.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button6_Click(object sender, EventArgs e)
         {
+            FormLogin login = new FormLogin();
             login.MostrarLogin();
+            this.Dispose();
         }
 
+        /// <summary>
+        /// Al hacer click sobre el button7 se abre el FormVendedorFacturas y éste se queda pausado.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button7_Click(object sender, EventArgs e)
         {
             FormVendedorFacturas formFacturas = new FormVendedorFacturas(this, empresa);

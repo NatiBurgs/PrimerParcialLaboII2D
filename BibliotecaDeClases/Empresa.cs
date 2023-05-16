@@ -13,6 +13,7 @@ namespace Entidades
         private  List<Cliente> clientes;
         private List<Producto> stockList;
         private List<Factura> facturaList;
+        
         public Empresa()
         {
             vendedores = new List<Vendedor>();
@@ -56,12 +57,12 @@ namespace Entidades
         /// </summary>
         public void CargarClientes() 
         {
-            clientes.Add(new Cliente("Natalia@gmail.com", "123", "Natalia", "Burgos", 10000));
-            clientes.Add(new Cliente("Daniel@gmail.com", "456", "Daniel", "Caceres", 5000));
-            clientes.Add(new Cliente("Pepe@gmail.com", "1234", "Pepe", "Perez", 10000));
-            clientes.Add(new Cliente("Maria@gmail.com", "1234", "Maria", "Gonzales", 10000));
-            clientes.Add(new Cliente("Miguel@gmail.com", "1234", "Miguel", "Gimenez", 10000));
-            clientes.Add(new Cliente("Abigail@gmail.com", "1234", "Abigail", "Cardozo", 10000));
+            clientes.Add(new Cliente("Natalia123@Freshbeef.com", "123", "Natalia", "Burgos", 10000));
+            clientes.Add(new Cliente("Emanuel456@Freshbeef.com", "456", "Daniel", "Caceres", 5000));
+            clientes.Add(new Cliente("Pepe1234@Freshbeef.com", "1234", "Pepe", "Perez", 10000));
+            clientes.Add(new Cliente("Maria1234@Freshbeef.com", "1234", "Maria", "Gonzales", 10000));
+            clientes.Add(new Cliente("Miguel1234@Freshbeef.com", "1234", "Miguel", "Gimenez", 10000));
+            clientes.Add(new Cliente("Abigail1234@Freshbeef.com", "1234", "Abigail", "Cardozo", 10000));
         }
         /// <summary>
         /// Retorna la lista de clientes de la clase Empresa.
@@ -98,22 +99,31 @@ namespace Entidades
         /// </summary>
         public void CargarVendedores() 
         {
-            vendedores.Add(new Vendedor("Rocio123", "123", "Rocio", "Burgos",stockList));
-            vendedores.Add(new Vendedor("Celeste456", "456", "Celeste", "Burgos",stockList));
+            vendedores.Add(new Vendedor("Rocio123@Freshbeef.com", "123", "Rocio", "Burgos",stockList));
+            vendedores.Add(new Vendedor("Celeste456@Freshbeef.com", "456", "Celeste", "Burgos",stockList));
         }
+
+        /// <summary>
+        /// Retorna la lista de vendedores.
+        /// </summary>
+        public List<Vendedor> MostrarListaVendedores()
+        {
+            return vendedores;
+        }
+
         /// <summary>
         /// Valida que el mail corresponda a un vendedor de la lista vendedores.
         /// Si corresponde retorna true, en caso contrario false.
         /// </summary>
         /// <param name="mail"></param>
         /// <returns>false</returns>
-        public  bool ValidarLoginAVendedores(string mail)
+        public bool ValidarLoginAVendedores(string mail, string password)
         {
             bool valido = false;
 
             foreach (var usuario in vendedores)
             {
-                if (mail == usuario.Mail)
+                if (mail == usuario.Mail && password == usuario.Password)
                 {
                     valido = true;
                 }
@@ -126,13 +136,13 @@ namespace Entidades
         /// </summary>
         /// <param name="mail"></param>
         /// <returns>false</returns>
-        public  bool ValidarLoginAClientes(string mail)
+        public  bool ValidarLoginAClientes(string mail, string password)
         {
             bool valido = false;
 
             foreach (var usuario in clientes)
             {
-                if (mail == usuario.Mail)
+                if (mail == usuario.Mail && password == usuario.Password)
                 {
                     valido = true;
                 }
@@ -328,7 +338,16 @@ namespace Entidades
             ObtenerProducto(productoNombre).PrecioKilo = precioNuevo;
         }
 
-
+        public void DevolverProductoAStock(string nombreProducto, int cantidad) 
+        {
+            foreach(Producto producto in stockList) 
+            {
+                if(nombreProducto == producto.NombreProducto) 
+                {
+                    producto.CantidadDisponible += cantidad;
+                }
+            }
+        }
 
         
     }

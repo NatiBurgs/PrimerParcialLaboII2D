@@ -25,46 +25,103 @@ namespace Login
             this.vendedor = vendedor;
         }
 
+        /// <summary>
+        /// El button2 al ser presionado se muestra el FormVendedor y éste se pausa.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
             vendedor.MostrarFormVendedor();
             this.Hide();
         }
 
+        /// <summary>
+        /// Carga los datos iniciales de la listBox1 al formulario.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FormVendedorFijarPrecios_Load(object sender, EventArgs e)
         {
-            List<Producto> catalogo = new List<Producto>();
-            catalogo = empresa.MostrarCatalogo();
+            StringBuilder stringBuilder = new StringBuilder();
 
-
-            for (int i = 0; i < catalogo.Count; i++)
+            foreach (Producto item in empresa.MostrarStockProductos())
             {
-                Producto item = catalogo[i];
-                listBox1.Items.Add(item.NombreProducto);
+                stringBuilder.Clear();
+                stringBuilder.AppendLine($"{item.NombreProducto}  | Precio Actual Kg: {item.PrecioKilo}");
+                listBox1.Items.Add(stringBuilder.ToString());
             }
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            int indiceProducto = listBox1.SelectedIndex;
-            //string producto = listBox1.SelectedIndex.ToString();
-            string productoSeleccionadoNombre = empresa.ObtenerProductoPorIndice(indiceProducto);
-
-            productoSeleccionado = empresa.ObtenerProducto(productoSeleccionadoNombre);
-
-
-        }
-
+        /// <summary>
+        /// Al realizar click sobre el button1 se cambia el precio de el producto seleccionado.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
-            if (Validador.ValidarNumeroMayorACero(textBox1.Text))
+            EliminarErrorProvider();
+            if (ValidarCampoNum())
             {
                 precioNuevo = int.Parse(textBox1.Text);
+                productoSeleccionado = empresa.ObtenerProducto(empresa.ObtenerProductoPorIndice(listBox1.SelectedIndex));
+
                 empresa.CambiarPrecioProducto(productoSeleccionado.NombreProducto, precioNuevo);
                 MessageBox.Show($"El producto: {productoSeleccionado.NombreProducto} posee un precio nuevo: {precioNuevo}");
-            }
-            else { MessageBox.Show("Ingrese un precio mayor a 0"); }
 
+                
+                listBox1.Items.Clear();
+                StringBuilder stringBuilder = new StringBuilder();
+                foreach (Producto item in empresa.MostrarStockProductos())
+                {
+                    stringBuilder.Clear();
+                    stringBuilder.AppendLine($"{item.NombreProducto}  | Precio Actual Kg: {item.PrecioKilo}");
+                    listBox1.Items.Add(stringBuilder.ToString());
+                }
+            }
+        }
+
+        /// <summary>
+        /// Valida que el campo no esté vacio y que sea del tipo entero.
+        /// </summary>
+        /// <returns></returns>
+        public bool ValidarCampoNum()
+        {
+            int num;
+            bool retorno = true;
+
+            if (textBox1.Text == "" || !int.TryParse(textBox1.Text, out num))
+            {
+                retorno = false;
+                errorProvider1.SetError(textBox1, "Ingresar cantidad");
+            }
+            return retorno;
+        }
+
+        /// <summary>
+        /// Elimina el mensaje del errorProvider1.
+        /// </summary>
+        public void EliminarErrorProvider()
+        {
+            errorProvider1.SetError(textBox1, "");
+        }
+
+        /// <summary>
+        /// Valida el ingreso de datos sea solamente del tipo entero.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textBox1_Validating(object sender, CancelEventArgs e)
+        {
+            int num;
+            if (!int.TryParse(textBox1.Text, out num))
+            {
+                errorProvider1.SetError(textBox1, "Ingrese números");
+            }
+            else
+            {
+                errorProvider1.SetError(textBox1, "");
+            }
         }
     }
 }

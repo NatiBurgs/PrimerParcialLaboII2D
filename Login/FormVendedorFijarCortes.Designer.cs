@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormVendedorFijarCortes));
             button1 = new Button();
             label1 = new Label();
@@ -38,8 +39,13 @@
             numericUpDown1 = new NumericUpDown();
             label3 = new Label();
             pictureBox1 = new PictureBox();
+            groupBox1 = new GroupBox();
+            label4 = new Label();
+            errorProvider1 = new ErrorProvider(components);
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)errorProvider1).BeginInit();
             SuspendLayout();
             // 
             // button1
@@ -47,7 +53,7 @@
             button1.BackColor = Color.RoyalBlue;
             button1.Font = new Font("Microsoft JhengHei", 9F, FontStyle.Regular, GraphicsUnit.Point);
             button1.ForeColor = SystemColors.ButtonFace;
-            button1.Location = new Point(60, 393);
+            button1.Location = new Point(485, 700);
             button1.Name = "button1";
             button1.Size = new Size(94, 38);
             button1.TabIndex = 0;
@@ -60,16 +66,16 @@
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft JhengHei", 9F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = SystemColors.Highlight;
-            label1.Location = new Point(260, 66);
+            label1.Location = new Point(522, 395);
             label1.Name = "label1";
-            label1.Size = new Size(231, 19);
+            label1.Size = new Size(181, 19);
             label1.TabIndex = 1;
-            label1.Text = "Ingresar un tipo de Corte nuevo";
+            label1.Text = "Nombre de Corte Nuevo";
             // 
             // textBox1
             // 
             textBox1.ForeColor = SystemColors.ControlDark;
-            textBox1.Location = new Point(280, 113);
+            textBox1.Location = new Point(522, 452);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(202, 27);
             textBox1.TabIndex = 2;
@@ -77,7 +83,7 @@
             // textBox2
             // 
             textBox2.ForeColor = SystemColors.ControlDark;
-            textBox2.Location = new Point(405, 265);
+            textBox2.Location = new Point(634, 601);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(77, 27);
             textBox2.TabIndex = 3;
@@ -87,7 +93,7 @@
             button2.BackColor = Color.RoyalBlue;
             button2.Font = new Font("Microsoft JhengHei", 9F, FontStyle.Regular, GraphicsUnit.Point);
             button2.ForeColor = SystemColors.ButtonFace;
-            button2.Location = new Point(337, 380);
+            button2.Location = new Point(628, 687);
             button2.Name = "button2";
             button2.Size = new Size(154, 51);
             button2.TabIndex = 5;
@@ -100,7 +106,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Microsoft JhengHei", 9F, FontStyle.Regular, GraphicsUnit.Point);
             label2.ForeColor = SystemColors.Highlight;
-            label2.Location = new Point(265, 189);
+            label2.Location = new Point(522, 529);
             label2.Name = "label2";
             label2.Size = new Size(120, 19);
             label2.TabIndex = 6;
@@ -109,7 +115,7 @@
             // numericUpDown1
             // 
             numericUpDown1.ForeColor = SystemColors.ControlDark;
-            numericUpDown1.Location = new Point(410, 181);
+            numericUpDown1.Location = new Point(648, 526);
             numericUpDown1.Name = "numericUpDown1";
             numericUpDown1.Size = new Size(72, 27);
             numericUpDown1.TabIndex = 7;
@@ -119,7 +125,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Microsoft JhengHei", 9F, FontStyle.Regular, GraphicsUnit.Point);
             label3.ForeColor = SystemColors.Highlight;
-            label3.Location = new Point(265, 269);
+            label3.Location = new Point(522, 609);
             label3.Name = "label3";
             label3.Size = new Size(106, 19);
             label3.TabIndex = 8;
@@ -128,19 +134,46 @@
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(49, 66);
+            pictureBox1.Location = new Point(902, 37);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(186, 194);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 9;
             pictureBox1.TabStop = false;
             // 
+            // groupBox1
+            // 
+            groupBox1.BackColor = SystemColors.ControlDark;
+            groupBox1.Controls.Add(label4);
+            groupBox1.Controls.Add(pictureBox1);
+            groupBox1.Location = new Point(-8, -25);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(1262, 226);
+            groupBox1.TabIndex = 10;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "groupBox1";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Microsoft JhengHei", 24F, FontStyle.Bold, GraphicsUnit.Point);
+            label4.ForeColor = SystemColors.ButtonFace;
+            label4.Location = new Point(135, 127);
+            label4.Name = "label4";
+            label4.Size = new Size(619, 50);
+            label4.TabIndex = 11;
+            label4.Text = "Ingresar Nuevo Corte de Carne";
+            // 
+            // errorProvider1
+            // 
+            errorProvider1.ContainerControl = this;
+            // 
             // FormVendedorFijarCortes
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(574, 450);
-            Controls.Add(pictureBox1);
+            ClientSize = new Size(1207, 750);
+            Controls.Add(groupBox1);
             Controls.Add(label3);
             Controls.Add(numericUpDown1);
             Controls.Add(label2);
@@ -158,6 +191,9 @@
             Load += FormVendedorFijarCortes_Load;
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)errorProvider1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -173,5 +209,8 @@
         private NumericUpDown numericUpDown1;
         private Label label3;
         private PictureBox pictureBox1;
+        private GroupBox groupBox1;
+        private Label label4;
+        private ErrorProvider errorProvider1;
     }
 }

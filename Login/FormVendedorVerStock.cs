@@ -23,11 +23,22 @@ namespace Login
             this.vendedor = vendedor;
         }
 
+        /// <summary>
+        /// Al realizar click sobre el button1 se abre el formulario vendedor y éste se pausa. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             vendedor.MostrarFormVendedor();
             this.Hide();
         }
+
+        /// <summary>
+        /// Se cargan los elementos del listBox1.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FormVendedorVerStock_Load(object sender, EventArgs e)
         {
             List<Producto> productosEnStock = empresa.MostrarCatalogo();
@@ -36,26 +47,12 @@ namespace Login
             foreach (Producto item in productosEnStock)
             {
                 stringBuilder.Clear();
-                stringBuilder.AppendLine($"{item.NombreProducto} | Cantidad Disponible: {item.CantidadDisponible.ToString()}| $ por Kg: {item.PrecioKilo.ToString()}");
+                stringBuilder.AppendLine($"{item.NombreProducto}      |      Cantidad Disponible: {item.CantidadDisponible.ToString()}      |       $ por Kg: {item.PrecioKilo.ToString()}");
 
                 listBox1.Items.Add(stringBuilder.ToString());
 
             }
-
-            /*List<Producto> stock = empresa.MostrarCatalogo();
-            for (int i = 0; i < stock.Count; i++)
-            {
-                Producto item = stock[i];
-                stringBuilder.Append($"\n {item.NombreProducto} | Cantidad Disponible: {item.CantidadDisponile.ToString()} | $ por Kg: {item.PrecioKilo.ToString()}");
-                listBox1.Items.Add(stringBuilder);
-            }*/
-
-
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }

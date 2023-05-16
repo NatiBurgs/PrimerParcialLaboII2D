@@ -15,6 +15,7 @@ namespace Entidades
         string nombreProducto;
         int cantidadProducto;
 
+
         public Factura(string nombreComprador, string metodoDePago, int montoTotal, string nombreProducto, int cantidadProducto) 
         {
             this.nombreComprador = nombreComprador;
@@ -84,6 +85,7 @@ namespace Entidades
                 metodoDePago = value;
             }
         }
+ 
 
         public int Rand
         {

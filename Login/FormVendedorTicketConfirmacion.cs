@@ -39,6 +39,11 @@ namespace Login
             this.totalAbonar = totalAbonar;
         }
 
+        /// <summary>
+        /// Carga los elementos del formulario. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FormVendedorTicketConfirmacion_Load(object sender, EventArgs e)
         {
             label5.Text = cliente.Nombre;
@@ -54,25 +59,31 @@ namespace Login
             label14.Text = totalAbonar.ToString();
         }
 
+        /// <summary>
+        /// Al realizar click sobre el button1 se confirma la venta. Disminuyendo el stock de la 
+        /// empresa, y generando una factura nueva. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
-            if (cliente.MontoDisponible > totalAbonar && empresa.ObtenerProducto(nombreProducto).CantidadDisponible > 0)
-            {
-                empresa.ReducirStock(nombreProducto, cantidadSeleccionada);
-                Factura facturaNueva = new Factura(cliente.Nombre, metodoDePago, totalAbonar, nombreProducto, cantidadSeleccionada);
-                empresa.AgregarFacturas(facturaNueva);
-                empresa.ObtenerDatosCliente(cliente.Nombre).MontoDisponible -= totalAbonar;
-                vendedor.MostrarFormVendedor();
+            empresa.ReducirStock(nombreProducto, cantidadSeleccionada);
+            Factura facturaNueva = new Factura(cliente.Nombre, metodoDePago, totalAbonar, nombreProducto, cantidadSeleccionada);
+            empresa.AgregarFacturas(facturaNueva);
+            empresa.ObtenerDatosCliente(cliente.Nombre).MontoDisponible -= totalAbonar;
+            vendedor.MostrarFormVendedor();
+            cliente.RetornarListaCarrito().Clear();
+            MessageBox.Show("Venta Exitosa! ");
 
-                this.Dispose();
-            }
-            else
-            {
-                MessageBox.Show($"Venta Rechazada: \n - Monto disponible de cliente menor al valor de la compra. \n - Stock menor al solicitado");
-            }
-
+            this.Dispose();
         }
 
+        /// <summary>
+        /// Al realizar click sobre el button2 se mostrará el formularioVenderAClientes, y
+        /// éste se elimina. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
             vendedorAClientes.MostrarFormVenderAClientes();

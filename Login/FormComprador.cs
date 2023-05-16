@@ -1,5 +1,5 @@
 ﻿using Entidades;
-
+using System.Text;
 
 namespace Login
 {
@@ -13,11 +13,11 @@ namespace Login
         private int cantidadKgSeleccionado;
         private int value;
         private int montoDisponible;
+        private int subTotal = 0;
         private Empresa empresa;
         private Cliente cliente;
-        List<Producto> catalogo;
         FormCompradorInicio inicioComprador;
-        Producto productoSeleccionado;
+
 
 
         public FormComprador(Cliente clienteUsuario, Empresa empresa)
@@ -25,7 +25,6 @@ namespace Login
             InitializeComponent();
             this.empresa = empresa;
             cliente = clienteUsuario;
-            catalogo = empresa.MostrarCatalogo();
             montoDisponible = cliente.MontoDisponible;
         }
 
@@ -35,7 +34,6 @@ namespace Login
             this.inicioComprador = inicioComprador;
             this.empresa = empresa;
             cliente = clienteUsuario;
-            catalogo = empresa.MostrarCatalogo();
             montoDisponible = cliente.MontoDisponible;
         }
         /// <summary>
@@ -45,44 +43,18 @@ namespace Login
         /// <param name="e"></param>
         private void FormComprador_Load(object sender, EventArgs e)
         {
-            foreach (Producto producto in catalogo)
+
+            List<Producto> productoList = empresa.MostrarStockProductos();
+            StringBuilder stringBuilder = new StringBuilder();
+            foreach (Producto item in productoList)
             {
-                comboBox1.Items.Add(producto.NombreProducto);
+                stringBuilder.Clear();
+                stringBuilder.AppendLine($"{item.NombreProducto}");
+                listBox1.Items.Add(stringBuilder.ToString());
             }
-            value = (int)numericUpDown1.Value;
 
             label10.Text = cliente.Mail;
-            label8.Text = montoDisponible.ToString();
-        }
-
-        /// <summary>
-        /// Actualiza el metodo a pagar y la cantidad a pagar dependiento de el radioButton Checked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-            value = (int)numericUpDown1.Value;
-            cantidadKgSeleccionado = value;
-
-            if (radioButton1.Checked)
-            {
-                cantidadAPagar = cliente.ComprarProducto(precioKilo, cantidadKgSeleccionado);
-                label1.Text = cantidadAPagar.ToString();
-                metodoDePago = "Débito";
-            }
-            else if (radioButton2.Checked)
-            {
-                cantidadAPagar = cliente.ComprarProducto(precioKilo, cantidadKgSeleccionado, 5);
-                label1.Text = cantidadAPagar.ToString();
-                metodoDePago = "Crédito";
-            }
-            else
-            {
-                cantidadAPagar = cliente.ComprarProducto(precioKilo, cantidadKgSeleccionado);
-                label1.Text = cantidadAPagar.ToString();
-                metodoDePago = "Efectivo";
-            }
+            label8.Text = cliente.MontoDisponible.ToString();
 
         }
 
@@ -92,19 +64,19 @@ namespace Login
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        /// 
         private void button1_Click(object sender, EventArgs e)
         {
-            if ((cliente.MontoDisponible > cantidadAPagar) & (empresa.ConsultarStock(nombreDeProducto)))
+            if (subTotal > 0)
             {
-                empresa.ReducirStock(nombreDeProducto, cantidadKg);
 
-                FormTicketConfirmacion formTicket = new(this, cliente, empresa, productoSeleccionado, cantidadKgSeleccionado, precioKilo, metodoDePago, cantidadAPagar);
-                formTicket.Show();
+                FormCompradorDatosDestinatario formDestinatario = new FormCompradorDatosDestinatario(this, cliente, empresa, subTotal);
+                formDestinatario.Show();
                 this.Hide();
             }
             else
             {
-                MessageBox.Show($" El monto disponible es menor al precio final");
+                MessageBox.Show("Agregue productos al carrito!");
             }
         }
 
@@ -124,34 +96,85 @@ namespace Login
         /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
-            inicioComprador.MostrarCompradorIncio();
-            this.Hide();
+            FormLogin login = new FormLogin();
+            login.Show();
+            this.Dispose();
         }
 
         /// <summary>
-        /// Al seleccionar una opcion del comboBox1 se actualizan el precio por KG, y el maximo del numericUpDown.
+        /// Cambia el valor del indice del elemento según cuál esté seleccionado.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-            int productoSeleccionadoIndice = comboBox1.SelectedIndex;
-            string nombreProductoSeleccionado = empresa.ObtenerProductoPorIndice(productoSeleccionadoIndice);
-            productoSeleccionado = empresa.ObtenerProducto(nombreProductoSeleccionado);
-
-            nombreDeProducto = productoSeleccionado.NombreProducto;
-
-            precioKilo = productoSeleccionado.PrecioKilo;
-
-            label6.Text = precioKilo.ToString();
-
-            cantidadKg = productoSeleccionado.CantidadDisponible;
-
-            numericUpDown1.Maximum = productoSeleccionado.CantidadDisponible;
-            numericUpDown1.Minimum = 0;
-
+            label13.Text = empresa.ObtenerProducto(empresa.ObtenerProductoPorIndice(listBox1.SelectedIndex)).CantidadDisponible.ToString();
+            label6.Text = empresa.ObtenerProducto(empresa.ObtenerProductoPorIndice(listBox1.SelectedIndex)).PrecioKilo.ToString();
         }
 
+        /// <summary>
+        /// Al hacer click sobre el button3 se agrega el producto seleccinado al carrito
+        /// del comprador.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Producto productoSeleccionado = empresa.ObtenerProducto(empresa.ObtenerProductoPorIndice(listBox1.SelectedIndex));
+            StringBuilder stringBuilder_2 = new StringBuilder();
+
+            value = (int)numericUpDown1.Value;
+            numericUpDown1.Minimum = 0;
+            numericUpDown1.Maximum = productoSeleccionado.CantidadDisponible;
+            cantidadKgSeleccionado = value;
+
+
+            empresa.ReducirStock(productoSeleccionado.NombreProducto, cantidadKgSeleccionado);
+            subTotal += cliente.ComprarProducto(productoSeleccionado.PrecioKilo, cantidadKgSeleccionado);
+            label7.Text = subTotal.ToString();
+
+            if (cantidadKgSeleccionado > 0)
+            {
+                cliente.AgregarACarrito(productoSeleccionado, cantidadKgSeleccionado);
+                if (cliente.RetornarListaCarrito != null)
+                {
+                    listBox2.Items.Clear();
+                    foreach (Carrito unidad in cliente.RetornarListaCarrito())
+                    {
+                        stringBuilder_2.AppendLine($"{unidad.Producto.NombreProducto}  *  ({unidad.Cantidad})");
+                        listBox2.Items.Add(stringBuilder_2.ToString());
+                        stringBuilder_2.Clear();
+                    }
+                }
+
+            }
+            else { MessageBox.Show("Error! Ingrese cantidad mayor a 0"); }
+        }
+
+        /// <summary>
+        /// Al realizar click sobre el button4 se eliminará del carrito del comprador
+        /// el producto seleccionado.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Carrito carritoSeleccionado = cliente.ObtenerCarrito(cliente.ObtenerCarritoPorIndice(listBox2.SelectedIndex));
+            cliente.QuitarDeCarrito(carritoSeleccionado);
+            empresa.DevolverProductoAStock(carritoSeleccionado.Producto.NombreProducto, carritoSeleccionado.Cantidad);
+
+            StringBuilder stringBuilder_2 = new StringBuilder();
+            listBox2.Items.Clear();
+
+            subTotal -= carritoSeleccionado.Cantidad * carritoSeleccionado.Producto.PrecioKilo;
+            label7.Text = subTotal.ToString();
+
+            foreach (Carrito unidad in cliente.RetornarListaCarrito())
+            {
+                stringBuilder_2.AppendLine($"{unidad.Producto.NombreProducto}  *  ({unidad.Cantidad})");
+                listBox2.Items.Add(stringBuilder_2.ToString());
+                stringBuilder_2.Clear();
+            }
+        }
     }
 }

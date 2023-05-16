@@ -22,6 +22,11 @@ namespace Login
             this.vendedor = vendedor;
         }
 
+        /// <summary>
+        /// Se carga en el formulario las facturas a mostrar. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FormFactura_Load(object sender, EventArgs e)
         {
             List<Factura> facturaList = empresa.MostrarFacturas();
@@ -30,19 +35,23 @@ namespace Login
             foreach (Factura item in facturaList)
             {
                 stringBuilder.Clear();
-                stringBuilder.AppendLine($"Orden #{item.Rand} |Cliente: {item.NombreDeComprador}|Total Abonado $ : {item.MontoTotal.ToString()}|Método de Pago:{item.MetodoDePago} |Producto: {item.NombreProducto} ");
+                stringBuilder.AppendLine($"Orden #{item.Rand}     |     Cliente: {item.NombreDeComprador}     |     Total Abonado $ : {item.MontoTotal.ToString()}      |      Método de Pago:{item.MetodoDePago}        |       Producto: {item.NombreProducto} ");
 
                 listBox1.Items.Add(stringBuilder.ToString());
 
             }
         }
 
-
-
+        /// <summary>
+        /// Al realizar click sobre el button1 se mostrará el formulario Vendedor y éste se pausará.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click_1(object sender, EventArgs e)
         {
             vendedor.MostrarFormVendedor();
             this.Hide();
         }
+
     }
 }

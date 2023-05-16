@@ -28,6 +28,7 @@ namespace Login
             Carniceria.CargarClientes();
             Carniceria.CargarStock();
             Carniceria.CargarFacturas();
+            AutoCompleteTextBox();
         }
 
         /// <summary>
@@ -37,43 +38,98 @@ namespace Login
         /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
-
             string mail = textBox1.Text;
             string password = textBox2.Text;
 
-
-            if (Carniceria.ValidarLoginAVendedores(mail) == true)
+            EliminarErrorProvider();
+            if (ValidarCamposTexto())
             {
-                FormVendedor vendedor = new FormVendedor(this,Carniceria);
-                vendedor.Show();
-                this.Hide();
+
+                if (Carniceria.ValidarLoginAVendedores(mail,password) == true)
+                {
+                    FormVendedor vendedor = new FormVendedor(this, Carniceria);
+                    vendedor.Show();
+                    this.Hide();
+
+                }
+                else if (Carniceria.ValidarLoginAClientes(mail, password) == true)
+                {
+                    string nombre = Carniceria.ObtenerNombreCliente(mail);
+                    string apellido = Carniceria.ObtenerApellidoCliente(mail);
+
+                    Cliente cliente = new Cliente(mail, password, nombre, apellido, 0);
+                    FormCompradorInicio compradorInicio = new FormCompradorInicio(this, Carniceria, cliente);
+
+                    compradorInicio.Show();
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show("Error, revise las credenciales");
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Método para autocompletar los textBox del formulario.
+        /// </summary>
+        private void AutoCompleteTextBox()
+        {
+            AutoCompleteStringCollection lista = new AutoCompleteStringCollection();
+
+            foreach (var v in Carniceria.MostrarListaClientes())
+            {
+                lista.Add(v.Mail);
 
             }
-            else if (Carniceria.ValidarLoginAClientes(mail) == true)
-            {
-                string nombre = Carniceria.ObtenerNombreCliente(mail);
-                string apellido = Carniceria.ObtenerApellidoCliente(mail);
 
-                Cliente cliente = new Cliente(mail, password, nombre, apellido, 0);
-                FormCompradorInicio compradorInicio = new FormCompradorInicio(this, Carniceria, cliente);
-
-                compradorInicio.Show();
-                this.Hide();
-            }
-            else 
+            foreach (var i in Carniceria.MostrarListaVendedores())
             {
-                MessageBox.Show("Error, revise las credenciales");
+                lista.Add(i.Mail);
             }
+
+            textBox1.AutoCompleteCustomSource = lista;
 
         }
 
         /// <summary>
         /// Activa el formulario Login.
         /// </summary>
-        public void MostrarLogin() 
+        public void MostrarLogin()
         {
             this.Show();
         }
 
+        /// <summary>
+        /// Comprueba la validación de los compos.
+        /// </summary>
+        /// <returns>true or false</returns>
+        private bool ValidarCamposTexto()
+        {
+            bool retorno = true;
+            if (textBox1.Text == "")
+            {
+                retorno = false;
+                errorProvider1.SetError(textBox1, "Ingresar Mail");
+            }
+            if (textBox2.Text == "")
+            {
+                retorno = false;
+                errorProvider1.SetError(textBox2, "Ingresar password");
+            }
+
+            return retorno;
+
+        }
+
+        /// <summary>
+        /// Elimina el errorProvider.
+        /// </summary>
+        private void EliminarErrorProvider()
+        {
+            errorProvider1.SetError(textBox1, "");
+            errorProvider1.SetError(textBox2, "");
+        }
     }
 }

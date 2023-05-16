@@ -13,65 +13,89 @@ namespace Login
 {
     public partial class FormTicketConfirmacion : Form
     {
-
-        private int cantidadKg;
-        private int precioKg;
-        private string metodoDePago;
-        private int cantidadAPagar;
         Cliente cliente;
         Empresa empresa;
-        FormComprador comprador;
-        Producto productoSeleccionado;
+        FormCompradorDatosDestinatario formCompradorDatos;
+        Random rand = new Random();
 
-        public FormTicketConfirmacion(FormComprador comprador, Cliente clienteUsuario, Empresa empresa, Producto productoSeleccionado, int cantidadKgUsuario, int precioKgUsuario, string metodoDePagoUsuario, int cantidadAPagar)
+        private string nombreYApellido;
+        private string provincia;
+        private string direccion;
+        private string localidad;
+        private int codigoPostal;
+        private int dni;
+        private string metodoDePago;
+        private string datosDeFacturacion;
+        private int totalPagar;
+
+        public FormTicketConfirmacion(FormCompradorDatosDestinatario formCompradorDatos, Cliente cliente, Empresa empresa, string nombreYApellido, int telefono, string provincia, string direccion, string localidad, int codigoPostal, int dni, string metodoDePago, string datosDeFacturacion, int totalPagar)
         {
             InitializeComponent();
-            this.comprador = comprador;
-            this.productoSeleccionado = productoSeleccionado;
-            cantidadKg = cantidadKgUsuario;
-            precioKg = precioKgUsuario;
-            metodoDePago = metodoDePagoUsuario;
-            cliente = clienteUsuario;
-            this.cantidadAPagar = cantidadAPagar;
+            this.cliente = cliente;
             this.empresa = empresa;
+            this.formCompradorDatos = formCompradorDatos;
+            this.nombreYApellido = nombreYApellido;
+            this.provincia = provincia;
+            this.direccion = direccion;
+            this.localidad = localidad;
+            this.codigoPostal = codigoPostal;
+            this.dni = dni;
+            this.metodoDePago = metodoDePago;
+            this.datosDeFacturacion = datosDeFacturacion;
+            this.totalPagar = totalPagar;
         }
 
+        /// <summary>
+        /// Carga los datos iniciales del Formulario.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FormTicketConfirmacion_Load(object sender, EventArgs e)
         {
-            label2.Text = cliente.Nombre;
-            label3.Text = cliente.Apellido;
+            label22.Text = rand.Next(0, 10000).ToString();
+            label2.Text = nombreYApellido;
+            label6.Text = direccion;
+            label14.Text = localidad;
+            label19.Text = codigoPostal.ToString();
+            label16.Text = dni.ToString();
             label4.Text = cliente.Mail;
-            label19.Text = cliente.MontoDisponible.ToString();
-
-            label5.Text = productoSeleccionado.NombreProducto;
-            label6.Text = cantidadKg.ToString();
-            label7.Text = precioKg.ToString();
             label10.Text = metodoDePago.ToString();
-
-            label8.Text = cantidadAPagar.ToString();
+            label24.Text = datosDeFacturacion;
+            label8.Text = totalPagar.ToString();
+            cliente.MontoDisponible += (-totalPagar);
         }
 
+        /// <summary>
+        /// Al presionar el button2 se carga el FormLogin, y éste se destruye.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
-            comprador.MostrarFormComprador();
+            FormLogin login = new FormLogin();
+            login.Show();
             this.Dispose();
         }
 
-        private void FormTicketConfirmacion_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            comprador.MostrarFormComprador();
-            this.Dispose();
-        }
-
+        /// <summary>
+        /// Al presionar el button1 se eliminará de la lista de stock de la empresa. Y se abre
+        /// el FormularioComprador.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click_1(object sender, EventArgs e)
         {
+            foreach (Carrito carrito in cliente.RetornarListaCarrito())
+            {
+                empresa.ReducirStock(carrito.Producto.NombreProducto, carrito.Cantidad);
+            }
+            cliente.RetornarListaCarrito().Clear();
 
-            cliente.MontoDisponible -= cantidadAPagar;
-            empresa.ReducirStock(productoSeleccionado.NombreProducto, cantidadKg);
-            MessageBox.Show($"{cliente.MontoDisponible}   Se ha genera su compra!");
             FormComprador formComprador = new FormComprador(cliente, empresa);
             formComprador.MostrarFormComprador();
             this.Dispose();
         }
+
+
     }
 }
